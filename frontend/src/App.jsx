@@ -11,7 +11,7 @@ import {
 import Home from './pages/Home'
 import { Signin } from './pages/Signin'
 import { Signup } from './pages/Signup'
-import Create from './pages/create'
+import Create from './pages/Create'
 import { ViewTrip } from './view-trip/[tripid]'
 import { MyTrips } from './pages/MyTrips'
 
