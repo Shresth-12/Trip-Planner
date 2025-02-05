@@ -9,7 +9,7 @@ export function Signup() {
 {
   try
   {
-  const response=await axios.post("http://localhost:3000/api/v1/user/signup",{
+  const response=await axios.post("https://trip-planner-backend-18rw.onrender.com/api/v1/user/signup",{
     email:a,
     password:b
   })
