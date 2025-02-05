@@ -13,7 +13,7 @@ export function MyTrips() {
       const userid = localStorage.getItem("userid");
       setLoading(true);
       try {
-        const response = await axios.post("http://localhost:3000/api/v1/trip/all", {
+        const response = await axios.post("https://trip-planner-backend-18rw.onrender.com/api/v1/trip/all", {
           userId: userid,
         });
         setTrips(response.data);
