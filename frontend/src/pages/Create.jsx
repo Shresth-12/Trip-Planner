@@ -39,7 +39,7 @@ function Create() {
     const prompt=`Generate Travel Plan for Location: ${selectedLocation}, for ${days} Days for ${selectedCompanion} with a ${selectedBudget} budget, Give me a Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, Time travel each of the location for 3 days with each day plan with best time to visit in JSON format.`
     const result=await chatSession.sendMessage(prompt)
     const uid=localStorage.getItem('userid')
-    const p=await axios.post("http://localhost:3000/api/v1/trip/save",{
+    const p=await axios.post("https://trip-planner-backend-18rw.onrender.com/api/v1/trip/save",{
       userId:uid,
       data:result.response.text()
     })
