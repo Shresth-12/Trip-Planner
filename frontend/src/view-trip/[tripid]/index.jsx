@@ -16,7 +16,7 @@ export function ViewTrip() {
   useEffect(() => {
     async function fetchTrip() {
       try {
-        const response = await axios.get(`http://localhost:3000/api/v1/trip/get-trip/${tripId}`);
+        const response = await axios.get(`https://trip-planner-backend-18rw.onrender.com/api/v1/trip/get-trip/${tripId}`);
         setTrip(response.data); 
       } catch (err) {
         setError(err.message || "Error fetching trip data");
