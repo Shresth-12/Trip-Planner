@@ -2,20 +2,26 @@ import { useState, useEffect } from "react";
 import { NavBar } from "../components/NavBar";
 import { TripsCard } from "../components/TripsCard";
 import axios from "axios";
+import { TravelLoader } from "../components/TravelLoader";
 
 export function MyTrips() {
   const [Trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     async function getTrips() {
       const userid = localStorage.getItem("userid");
+      if (!userid) {
+        setError("Your account session is missing. Please sign in again.");
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       try {
-        const response = await axios.post("https://trip-planner-backend-18rw.onrender.com/api/v1/trip/all", {
-          userId: userid,
-        });
+        const response = await axios.post(
+          "https://trip-planner-backend-18rw.onrender.com/api/v1/trip/all",
+          { userId: userid }
+        );
         setTrips(response.data);
       } catch (err) {
         setError(err.message || "Error fetching trips");
@@ -25,43 +31,44 @@ export function MyTrips() {
     }
     getTrips();
   }, []);
-
   return (
-    <div>
+    <div className="min-h-screen bg-[#f7f8f5] text-[#17212b]">
       <NavBar />
-      <div className="text-3xl font-bold mt-6 ml-66">
-        <h1>My Trips</h1>
-      </div>
-
-      <div className="ml-66 mt-10 flex flex-wrap gap-6">
+      <main className="mx-auto w-[min(1160px,calc(100%-40px))] py-[72px]">
+        <div className="mb-7 flex items-end justify-between gap-5 max-md:block">
+          <div>
+            <div className="text-[.72rem] font-bold uppercase tracking-[.16em] text-[#e8664f]">Your travel archive</div>
+            <h1 className="m-[6px_0_0] font-['Space_Grotesk'] text-[clamp(1.8rem,4vw,2.7rem)]">My trips</h1>
+          </div>
+          <span className="text-[#66727d]">{Trips.length} saved adventures</span>
+        </div>
         {loading ? (
-          // Skeleton Loader
-          Array.from({ length: 6 }).map((_, index) => (
-            <div>
-            <div key={index} className="animate-pulse w-80 h-48 bg-gray-300 rounded-xl"></div>
-            <div key={index} className="animate-pulse w-40 h-2 bg-gray-300 rounded-xl mt-3"></div>
-            <div key={index} className="animate-pulse w-64 h-2 bg-gray-300 rounded-xl mt-3"></div>
-            </div>
-          ))
-        ) : error ? (
-          <p>Error: {error}</p>
-        ) : Trips.length > 0 ? (
-          Trips.map((trip, index) => {
-            const info = JSON.parse(trip.trips);
-            return (
-              <TripsCard
-                key={index}
-                location={info.tripDetails.location}
-                days={info.tripDetails.duration}
-                budget={info.tripDetails.budget}
-                trip={trip._id}
-              />
-            );
-          })
+          <TravelLoader message="Fetching your expeditions..." />
         ) : (
-          <p>No trips found.</p>
+          <div className="grid grid-cols-3 gap-[22px] max-md:grid-cols-1">
+            {error ? (
+              <p className="rounded-[20px] border border-dashed border-[#cbd5cd] p-12 text-center text-[#66727d]">Error: {error}</p>
+            ) : Trips.length > 0 ? (
+              Trips.map((trip, index) => {
+                const info = JSON.parse(trip.trips);
+                return (
+                  <TripsCard
+                    key={index}
+                    location={info.tripDetails.location}
+                    days={info.tripDetails.duration}
+                    budget={info.tripDetails.budget}
+                    trip={trip._id}
+                  />
+                );
+              })
+            ) : (
+              <p className="rounded-[20px] border border-dashed border-[#cbd5cd] p-12 text-center text-[#66727d]">
+                No trips found. Start planning your first escape.
+              </p>
+            )}
+          </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }

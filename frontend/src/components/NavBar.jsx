@@ -1,86 +1,57 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function NavBar() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const profileMenuRef = useRef(null);
+
+  useEffect(() => {
+    if (!dropdownVisible) return undefined;
+
+    const closeMenu = (event) => {
+      if (!profileMenuRef.current?.contains(event.target)) {
+        setDropdownVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", closeMenu);
+    return () => document.removeEventListener("mousedown", closeMenu);
+  }, [dropdownVisible]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/signin"); // Redirect to sign-in page
+    localStorage.removeItem("userid");
+    setDropdownVisible(false);
+    navigate("/signin", { replace: true });
   };
 
   return (
-    <div className="flex justify-between mt-1 items-center h-16 px-5 shadow-sm">
-      <div className="cursor-pointer" onClick={()=>{
-        navigate("/")
-      }}>Travel Planner</div>
+    <header className="mx-auto flex min-h-[78px] w-[min(1160px,calc(100%-40px))] items-center justify-between border-b border-[#e6e9e4]">
+      <div className="flex cursor-pointer items-center gap-2.5 font-['Space_Grotesk'] text-[1.1rem] font-bold text-[#17212b]" onClick={()=> navigate("/")}>
+        <span className="grid h-[34px] w-[34px] place-items-center rounded-xl bg-[#e8664f] text-base text-white">✦</span>
+        <span>Travel Planner</span>
+      </div>
 
       {!token && (
-        <div>
-          <button
-            className="bg-black text-white rounded-l border-2 border-transparent p-2 text-sm cursor-pointer"
-            onClick={() => {
-              navigate("/signup");
-            }}
-          >
-            Signin
-          </button>
+        <div className="flex items-center gap-2.5">
+          <button className="rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f]" onClick={() => navigate("/signup")}>Sign in</button>
         </div>
       )}
 
       {token && (
-        <div className="flex gap-4">
-          <button
-            className="rounded-3xl border-1 border-gray-200 p-2 text-sm cursor-pointer"
-            onClick={() => {
-              navigate("/create");
-            }}
-          >
-            + Create Trip
-          </button>
-          <button
-            className="rounded-3xl border-1 border-gray-200 p-2 text-sm cursor-pointer"
-            onClick={() => {
-              navigate("/trips");
-            }}
-          >
-            My Trips
-          </button>
+        <div className="flex items-center gap-2.5">
+          <button className="hidden rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f] sm:block" onClick={() => navigate("/create")}>+ New trip</button>
+          <button className="rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f]" onClick={() => navigate("/trips")}>My trips</button>
 
           {/* Avatar and dropdown menu */}
-          <div
-            className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer"
-            onClick={() => setDropdownVisible(!dropdownVisible)}
-          >
-            <svg
-              className="absolute w-12 h-12 text-gray-400 -left-1"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
+          <div className="relative" ref={profileMenuRef}>
+            <button className="grid h-[38px] w-[38px] place-items-center rounded-full border-0 bg-[#17212b] font-bold text-white" aria-label="Open account menu" aria-expanded={dropdownVisible} onClick={() => setDropdownVisible((visible) => !visible)}>TP</button>
+            {dropdownVisible && <div className="absolute right-0 top-[50px] z-30 w-[150px] rounded-[14px] border border-[#e6e9e4] bg-white p-1.5 shadow-[0_16px_40px_#17212b18]"><button className="w-full rounded-[9px] border-0 bg-transparent px-2.5 py-[9px] text-left hover:bg-[#f3f5f1]" onClick={handleLogout}>Logout</button></div>}
           </div>
-
-          {/* Dropdown menu for logout */}
-          {dropdownVisible && (
-            <div className="absolute right-0 mt-12 w-48 bg-white border rounded-lg shadow-lg p-2">
-              <button
-                onClick={handleLogout}
-                className="w-full text-left p-2 text-sm text-gray-700 hover:bg-gray-200 rounded"
-              >
-                Logout
-              </button>
-            </div>
-          )}
         </div>
       )}
-    </div>
+    </header>
   );
 }

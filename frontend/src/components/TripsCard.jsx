@@ -3,22 +3,18 @@ import { useNavigate } from "react-router-dom";
 export function TripsCard({location,days,budget,trip}) {
     const navigate = useNavigate();
   return (
-    <div className="group relative cursor-pointer" onClick={()=>{
+    <article className="group cursor-pointer overflow-hidden rounded-[20px] border border-[#e3e8e2] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_35px_#17212b16]" onClick={()=>{
      navigate(`/view/${trip}`)
     }}>
-      <div className="overflow-hidden rounded-2xl shadow-md transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-2xl">
         <img
           src={aiimage}
           alt="Trip Destination"
-          className="rounded-2xl h-48 object-cover transition-all duration-300 group-hover:brightness-90"
+          className="block h-[190px] w-full object-cover transition duration-300 group-hover:scale-105"
         />
+      <div className="p-[17px_18px_20px]">
+        <h2 className="m-0 font-['Space_Grotesk'] text-xl">{location}</h2>
+        <p className="m-0 mt-1 text-sm text-[#66727d]">{days} trip <span aria-hidden="true">·</span> <strong>{budget}</strong> budget</p>
       </div>
-      <h1 className="mt-2 text-xl font-bold group-hover:text-blue-600 transition-all duration-300">
-       {location}
-      </h1>
-      <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-all duration-300">
-        {days} trip with <span className="font-bold">{budget}</span> budget
-      </p>
-    </div>
+    </article>
   );
 }
