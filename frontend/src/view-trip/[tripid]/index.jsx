@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { NavBar } from "../../components/NavBar";
 import aiimage from '../../assets/ai.webp';
@@ -8,6 +8,7 @@ import { PlaceCard } from "../../components/PlaceCard";
 import { TravelLoader } from "../../components/TravelLoader";
 
 export function ViewTrip() {
+  const navigate = useNavigate();
   const { tripId } = useParams();
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -86,6 +87,12 @@ export function ViewTrip() {
     <div>
       <NavBar />
       <main className="mx-auto w-[min(1160px,calc(100%-40px))] py-12">
+        <button
+          className="cursor-pointer  mb-5 rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f]"
+          onClick={() => navigate("/trips")}
+        >
+          ← Back to my trips
+        </button>
         <div className="relative h-[300px] overflow-hidden rounded-[26px] bg-[#17212b]">
           <img className="h-full w-full object-cover opacity-80" src={aiimage} alt="Travel Image" />
           <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#17212bdd] to-transparent p-8 text-white">

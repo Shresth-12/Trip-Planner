@@ -118,7 +118,7 @@ function Create() {
             </button>
           ) : (
             <div className="generation-panel">
-              <TravelLoader message="x" />
+              <TravelLoader message="" />
             </div>
           )}
         </div>
