@@ -1,12 +1,14 @@
 import express from "express"
 import { Trip } from "../db.js"
+import { authMiddleware } from "../middleware/auth.js"
 const router=express.Router()
 
+router.use(authMiddleware)
 
 router.post("/save",async(req,res)=>{
     try{
     const trip=await Trip.create({
-      userId:req.body.userId,
+  userId:req.userId,
       trips:req.body.data
     })
     return res.json({
@@ -22,7 +24,7 @@ catch(err)
 router.get("/get-trip/:tripId", async (req, res) => {
     const { tripId } = req.params; 
     try {
-      const trip = await Trip.findOne({ _id: tripId });
+      const trip = await Trip.findOne({ _id: tripId, userId: req.userId });
       if (!trip) {
         return res.status(404).json({ message: "Trip not found" });
       }
@@ -35,11 +37,7 @@ router.get("/get-trip/:tripId", async (req, res) => {
   });
   router.post("/all", async (req, res) => {
     try {
-        const userid = req.body.userId;
-        if (!userid) {
-            return res.status(400).json({ message: "User ID is required" });
-        }
-        const trips = await Trip.find({ userId: userid });
+      const trips = await Trip.find({ userId: req.userId });
         return res.status(200).json(trips);
     } catch (err) {
         console.error(err);

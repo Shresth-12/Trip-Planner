@@ -10,8 +10,8 @@ export function MyTrips() {
   const [error, setError] = useState(null);
   useEffect(() => {
     async function getTrips() {
-      const userid = localStorage.getItem("userid");
-      if (!userid) {
+      const token = localStorage.getItem("token");
+      if (!token) {
         setError("Your account session is missing. Please sign in again.");
         setLoading(false);
         return;
@@ -20,7 +20,10 @@ export function MyTrips() {
       try {
         const response = await axios.post(
           "https://trip-planner-backend-18rw.onrender.com/api/v1/trip/all",
-          { userId: userid }
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         setTrips(response.data);
       } catch (err) {

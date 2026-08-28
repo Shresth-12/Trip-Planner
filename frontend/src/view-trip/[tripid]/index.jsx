@@ -17,8 +17,12 @@ export function ViewTrip() {
   useEffect(() => {
     async function fetchTrip() {
       try {
+        const token = localStorage.getItem("token");
         const response = await axios.get(
-          `https://trip-planner-backend-18rw.onrender.com/api/v1/trip/get-trip/${tripId}`
+          `https://trip-planner-backend-18rw.onrender.com/api/v1/trip/get-trip/${tripId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         setTrip(response.data);
       } catch (err) {
