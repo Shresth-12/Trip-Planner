@@ -1,7 +1,12 @@
 import mongoose from "mongoose"
 import env from "dotenv"
 env.config()
-mongoose.connect("mongodb+srv://shresth:sweta%40176@cluster0.3fnlsyv.mongodb.net/trip")
+
+if (!process.env.DB_URL) {
+    throw new Error("DB_URL is not defined in the environment")
+}
+
+mongoose.connect(process.env.DB_URL)
 
 const UserSchema=new mongoose.Schema({
 email:{
