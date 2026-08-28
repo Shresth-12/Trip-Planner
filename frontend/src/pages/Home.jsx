@@ -27,7 +27,7 @@ function Home() {
                         </p>
                         <div className="flex flex-wrap items-center gap-4">
                             <button
-                                className="rounded-full border-0 bg-[#17212b] px-[21px] py-[13px] font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#e8664f]"
+                                className="cursor-pointer rounded-full border-0 bg-[#17212b] px-[21px] py-[13px] font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#e8664f]"
                                 onClick={() => navigate(token ? "/create" : "/signup")}
                             >
                                 Create your itinerary <span aria-hidden="true">↗</span>

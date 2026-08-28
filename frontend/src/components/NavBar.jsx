@@ -36,19 +36,19 @@ export function NavBar() {
 
       {!token && (
         <div className="flex items-center gap-2.5">
-          <button className="rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f]" onClick={() => navigate("/signup")}>Sign in</button>
+          <button className="cursor-pointer rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f]" onClick={() => navigate("/signup")}>Sign in</button>
         </div>
       )}
 
       {token && (
         <div className="flex items-center gap-2.5">
-          <button className="hidden rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f] sm:block" onClick={() => navigate("/create")}>+ New trip</button>
-          <button className="rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f]" onClick={() => navigate("/trips")}>My trips</button>
+          <button className="hidden cursor-pointer rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f] sm:block" onClick={() => navigate("/create")}>+ New trip</button>
+          <button className="cursor-pointer rounded-full border border-[#dce1dc] bg-white px-[18px] py-[11px] font-bold text-[#17212b] transition duration-200 hover:-translate-y-0.5 hover:border-[#e8664f]" onClick={() => navigate("/trips")}>My trips</button>
 
           {/* Avatar and dropdown menu */}
           <div className="relative" ref={profileMenuRef}>
-            <button className="grid h-[38px] w-[38px] place-items-center rounded-full border-0 bg-[#17212b] font-bold text-white" aria-label="Open account menu" aria-expanded={dropdownVisible} onClick={() => setDropdownVisible((visible) => !visible)}>TP</button>
-            {dropdownVisible && <div className="absolute right-0 top-[50px] z-30 w-[150px] rounded-[14px] border border-[#e6e9e4] bg-white p-1.5 shadow-[0_16px_40px_#17212b18]"><button className="w-full rounded-[9px] border-0 bg-transparent px-2.5 py-[9px] text-left hover:bg-[#f3f5f1]" onClick={handleLogout}>Logout</button></div>}
+            <button className="grid h-[38px] w-[38px] cursor-pointer place-items-center rounded-full border-0 bg-[#17212b] font-bold text-white" aria-label="Open account menu" aria-expanded={dropdownVisible} onClick={() => setDropdownVisible((visible) => !visible)}>TP</button>
+            {dropdownVisible && <div className="absolute right-0 top-[50px] z-30 w-[150px] rounded-[14px] border border-[#e6e9e4] bg-white p-1.5 shadow-[0_16px_40px_#17212b18]"><button className="w-full cursor-pointer rounded-[9px] border-0 bg-transparent px-2.5 py-[9px] text-left hover:bg-[#f3f5f1]" onClick={handleLogout}>Logout</button></div>}
           </div>
         </div>
       )}

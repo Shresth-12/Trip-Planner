@@ -113,7 +113,7 @@ function Create() {
         </div>
         <div className="mt-[35px] flex justify-end">
           {!loading ? (
-            <button className="rounded-full border-0 bg-[#17212b] px-[21px] py-[13px] font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#e8664f]" onClick={handleGenerateTrip}>
+            <button className="cursor-pointer rounded-full border-0 bg-[#17212b] px-[21px] py-[13px] font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#e8664f]" onClick={handleGenerateTrip}>
               Generate my trip ↗
             </button>
           ) : (
