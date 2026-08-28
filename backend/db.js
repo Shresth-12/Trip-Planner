@@ -1,8 +1,7 @@
 import mongoose from "mongoose"
 import env from "dotenv"
-import { fileURLToPath } from "url"
 
-env.config({ path: fileURLToPath(new URL("./.env", import.meta.url)) })
+env.config()
 
 if (!process.env.DB_URL) {
     throw new Error("DB_URL is not defined in the environment")
